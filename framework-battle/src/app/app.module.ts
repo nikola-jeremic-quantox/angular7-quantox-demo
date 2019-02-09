@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 
-import { MaterialModule } from './modules/material.module';
 import { CoreModule } from './modules/core.module';
+import { MaterialModule } from './modules/material.module';
+import { FirebaseModule } from './modules/firebase.module';
+
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
@@ -14,6 +16,7 @@ import { AppComponent } from './app.component';
     CoreModule,
     AppRoutingModule,
     MaterialModule,
+    FirebaseModule
   ],
   providers: [],
   bootstrap: [AppComponent]
