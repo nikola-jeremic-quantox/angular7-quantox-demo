@@ -1,0 +1,9 @@
+Company List:
+
+<ul>
+  <li 
+    *ngFor="let company of companyList$ | async"
+    (click)="onCompanyChosen(company.id)">
+    {{ company.name }}
+  </li>
+</ul>

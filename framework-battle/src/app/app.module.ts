@@ -7,10 +7,14 @@ import { FirebaseModule } from './modules/firebase.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { CompaniesComponent } from './companies/companies.component';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CompaniesComponent,
+    UsersComponent
   ],
   imports: [
     CoreModule,

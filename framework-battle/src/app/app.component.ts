@@ -1,20 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore'
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent {
+
   title = 'Framework Battle 2019';
 
-  constructor( private db: AngularFirestore ) {
+  constructor( private router: Router) {}
 
+  goToCompanyList() {
+    this.router.navigateByUrl('/companies');
   }
 
-  ngOnInit() {
-    // this.db.collection()
+  goToUserList() {
+    this.router.navigateByUrl('/users');
   }
 
 }
