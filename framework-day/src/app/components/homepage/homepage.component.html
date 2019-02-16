@@ -1,38 +1,51 @@
 <div class="homepage-wrapper">
 
-  <img 
-    width="100" 
-    src="../assets/images/angular-logo.svg"/>
+  <h1> {{ conferenceTitle }} </h1>
 
-  <h1> {{ introText }} </h1>
+  <img class="homepage-logos"
+    *ngFor="let item of logos"
+    [alt]="item.name"
+    [src]="item.src"/>
+
 
   <mat-divider></mat-divider>
 
   <div class="special-offers">
       
-    <h3> {{ specialOfferTitle }} </h3>
+    <h3> {{ specialOfferTitle }}  </h3>
 
-    <mat-card class="offer-item" *ngFor="let item of (destinations$ | async)">
+    <mat-card class="offer-item" *ngFor="let item of (destinations$ | async) | slice: 0:3">
 
         <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
+          <flag-icon mat-card-avatar class="item-flag" [country]="item.flag"></flag-icon>
           <mat-card-title>{{item.name}}</mat-card-title>
-          <mat-card-subtitle>{{item.region}}</mat-card-subtitle>
+          <mat-card-subtitle>
+            {{item.region}}, {{item.country}}
+          </mat-card-subtitle>
         </mat-card-header>
 
-        <img 
-          mat-card-image 
-          src="https://material.angular.io/assets/img/examples/shiba2.jpg" 
-          alt="Photo of a Shiba Inu">
+        <img mat-card-image  class="item-image" [src]="item.image" [alt]="item.name">
 
         <mat-card-content>
-            <p>Stars: {{item.stars}}</p>
-            Opis
+          <mat-icon 
+            class="item-stars"
+            *ngFor="let star of item.stars | iterateNumber">
+            star
+          </mat-icon>
+          <mat-icon 
+            class="item-stars"
+            *ngFor="let star of (5 - item.stars) | iterateNumber">
+            star_border
+          </mat-icon>
+            <p class="item-facts"> 
+              <strong>Fun Facts:</strong> 
+              {{item.funFacts}}
+            </p>
         </mat-card-content>
 
         <mat-card-actions>
-          <button mat-button color="primary">Explore</button>
-          <button mat-button color="warn">Find similar</button>
+          <button mat-button color="primary" (click)="onDestinationChosen(item.id)">Visit</button>
+          <button mat-button color="warn" (click)="onCategoryChosen(item.category)">{{item.category}}</button>
         </mat-card-actions>
 
       </mat-card>

@@ -12,6 +12,9 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { CountriesComponent } from './components/countries/countries.component';
 import { DestinationsComponent } from './components/destinations/destinations.component';
 import { HeaderComponent } from './_partials/header/header.component';
+import { IterateNumberPipe } from './_partials/pipes/iterate-number.pipe';
+import { NgxFlagIconCssModule } from 'ngx-flag-icon-css';
+import { SingleDestinationComponent } from './components/single-destination/single-destination.component'
 
 @NgModule({
   declarations: [
@@ -19,13 +22,16 @@ import { HeaderComponent } from './_partials/header/header.component';
     CountriesComponent,
     DestinationsComponent,
     HomepageComponent,
-    HeaderComponent
+    HeaderComponent,
+    IterateNumberPipe,
+    SingleDestinationComponent
   ],
   imports: [
     CoreModule,
     AppRoutingModule,
     MaterialModule,
-    FirebaseModule
+    FirebaseModule,
+    NgxFlagIconCssModule
   ],
   providers: [],
   bootstrap: [AppComponent]

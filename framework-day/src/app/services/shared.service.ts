@@ -6,5 +6,6 @@ import { BehaviorSubject } from 'rxjs';
 export class SharedService {
 
     activatedId = new BehaviorSubject<any>( null );
+    chosenCategory = new BehaviorSubject<any>( null );
 
 }
