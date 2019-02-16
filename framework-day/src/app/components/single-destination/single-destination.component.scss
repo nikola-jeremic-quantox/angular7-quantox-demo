@@ -1,0 +1,75 @@
+.mat-grid-list {
+	margin: 20px;
+}
+
+
+img {
+	max-width: 100%;
+}
+
+.destination-stars {
+  position: absolute;
+  color:  rgb(255, 255, 158); 
+  left: 10px;
+  top: 10px;
+  mat-icon {
+    text-shadow: 1px 1px gray;
+  }
+}
+
+.mat-toolbar {
+  background: transparent;
+}
+
+.mat-toolbar-row {
+  height: 40px;
+  &:nth-child(2) {
+    border-bottom: 2px solid gray;
+  }
+  h1 {font-size: 30px;}
+  h2 {
+    font-size: 22px; 
+    margin: 10px 0;
+    color: gray;
+  }
+}
+
+h3 {
+  margin: 20px;
+  padding: 10px 20px;
+  border: 2px solid green;
+  background: rgba(169, 235, 169, 0.4);
+  display: flex;
+  vertical-align: top;
+  mat-icon {
+    margin-right: 10px;
+    color: green;
+  }
+}
+
+p {
+  margin: 20px;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+button {
+  margin-left: 20px;
+}
+
+/* Material override */
+:host ::ng-deep {
+
+	.mat-grid-tile {
+    &.image-tile {
+      position: relative;
+    }
+    figure.mat-figure {
+      display: block;
+    }
+  }
+
+	flag-icon span {
+    min-height: 80px;
+  }
+}
