@@ -1,0 +1,41 @@
+<div class="homepage-wrapper">
+
+  <img 
+    width="100" 
+    src="../assets/images/angular-logo.svg"/>
+
+  <h1> {{ introText }} </h1>
+
+  <mat-divider></mat-divider>
+
+  <div class="special-offers">
+      
+    <h3> {{ specialOfferTitle }} </h3>
+
+    <mat-card class="offer-item" *ngFor="let item of (destinations$ | async)">
+
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{item.name}}</mat-card-title>
+          <mat-card-subtitle>{{item.region}}</mat-card-subtitle>
+        </mat-card-header>
+
+        <img 
+          mat-card-image 
+          src="https://material.angular.io/assets/img/examples/shiba2.jpg" 
+          alt="Photo of a Shiba Inu">
+
+        <mat-card-content>
+            <p>Stars: {{item.stars}}</p>
+            Opis
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-button color="primary">Explore</button>
+          <button mat-button color="warn">Find similar</button>
+        </mat-card-actions>
+
+      </mat-card>
+  </div>
+  
+</div>

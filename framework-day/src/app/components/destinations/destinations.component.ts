@@ -1,22 +1,22 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SharedService } from '../services/shared.service';
-import { CompanyService } from '../services/companies.service';
+import { SharedService } from '../../services/shared.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: 'app-destinations',
+  templateUrl: './destinations.component.html',
+  styleUrls: ['./destinations.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class DestinationsComponent implements OnInit {
 
   chosenId: any;
-  users: any;
+  destinations: any;
 
   activatedId$ = this.sharedService.activatedId;
 
   constructor(
     private sharedService: SharedService,
-    private companyService: CompanyService
+    private apiService: ApiService
   ) { }
 
   ngOnInit() {
@@ -31,9 +31,9 @@ export class UsersComponent implements OnInit {
     this.activatedId$.subscribe(
       res => {
         this.chosenId = res;      
-        this.companyService.getUserList(this.chosenId).subscribe(
+        this.apiService.getCollectionItems(this.chosenId).subscribe(
           res => {
-            this.users = res;
+            this.destinations = res;
           }
         )
       }

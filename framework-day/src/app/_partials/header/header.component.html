@@ -1,0 +1,26 @@
+<mat-toolbar>
+
+  <button 
+    mat-button 
+    class="logo"
+    (click)="onNavigate('/')">
+    Home
+  </button>
+
+  <span class="toolbar-spacer"></span>
+
+  <button 
+    mat-raised-button 
+    color="primary"
+    (click)="onNavigate('/countries')"> 
+    Explore by country
+  </button>
+
+  <button 
+    mat-raised-button 
+    color="warn"
+    (click)="onNavigate('/admin')"> 
+    Admin panel
+  </button>
+
+</mat-toolbar>

@@ -1,0 +1,30 @@
+.homepage-wrapper {
+	text-align: center;
+	padding: 10px 20px;
+	h1 {
+		margin-bottom: 20px;
+	}
+}
+
+.special-offers {
+    padding-top: 30px;
+	h3 {
+		font-size: 20px;
+	}
+}
+
+.offer-item {
+    max-width: 200px;
+    margin: 10px;
+}
+
+mat-card {
+    display: inline-block;
+    mat-card-title { text-align: left; }
+    mat-card-subtitle { text-align: left; }
+}
+
+.example-header-image {
+	background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
+	background-size: cover;
+}
