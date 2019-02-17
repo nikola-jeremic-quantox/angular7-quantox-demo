@@ -42,7 +42,17 @@ export class ApiService {
 	}
 
 	postDestination(document) {
-		const endpoint = 'destinations/';
-		return /* ToDo */
+		return this.db
+			.collection('destinations').add(document);
+	}
+
+	updateDestination(document, id) {
+		return this.db
+			.doc('destinations/' + id).update(document);
+	}
+
+	deleteDestination(id) {
+		return this.db
+			.doc('destinations/' + id).delete();
 	}
 }

@@ -65,17 +65,21 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 		);
 	}
 	
-  onAddNew() {
+  onDialog(id?) {
     const dialogRef = this.matDialog.open(AddDialogComponent, {
       width: '600px',
       data: {
-				name: 'New Account'
+				name: id ? 'Update Desination' : 'Create new Destination',
+				id: id || null
 			}
     });
-    dialogRef.afterClosed().subscribe(doc => {
+    dialogRef.afterClosed().subscribe(object => {
+			const { id, doc } = object;
+			console.log(111111111, id, doc);
       if (doc) {
-				// this.apiService.postDestination(doc).subscribe(res=> console.log(res));
-				/* ToDo: POST result */
+				console.log(32321, doc)
+				this.apiService.postDestination(doc);
+        this.filterTable();
       }
     });
   }
