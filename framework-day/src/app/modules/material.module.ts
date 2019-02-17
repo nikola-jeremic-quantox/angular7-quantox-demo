@@ -15,7 +15,8 @@ import {
   MatDialogModule,
   MatProgressSpinnerModule,
   MatDividerModule,
-  MatCheckboxModule} from '@angular/material';
+  MatCheckboxModule,
+  MatExpansionModule} from '@angular/material';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -41,7 +42,8 @@ const materialModules = [
   MatToolbarModule,
   MatSnackBarModule,
   MatDividerModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatExpansionModule
 ];
 
 @NgModule({

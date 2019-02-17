@@ -14,7 +14,8 @@ import { DestinationsComponent } from './components/destinations/destinations.co
 import { HeaderComponent } from './_partials/header/header.component';
 import { IterateNumberPipe } from './_partials/pipes/iterate-number.pipe';
 import { NgxFlagIconCssModule } from 'ngx-flag-icon-css';
-import { SingleDestinationComponent } from './components/single-destination/single-destination.component'
+import { SingleDestinationComponent } from './components/single-destination/single-destination.component';
+import { TableFilterComponent } from './_partials/table/table-filter/table-filter.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SingleDestinationComponent } from './components/single-destination/sing
     HomepageComponent,
     HeaderComponent,
     IterateNumberPipe,
-    SingleDestinationComponent
+    SingleDestinationComponent,
+    TableFilterComponent
   ],
   imports: [
     CoreModule,

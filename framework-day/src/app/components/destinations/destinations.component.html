@@ -1,59 +1,95 @@
-<section>
+<mat-sidenav-container>
+	<!-- Side-nav -->
+	<mat-sidenav class="main-sidebar" #sidenav>
 
-  <mat-toolbar>
-    <button mat-raised-button>Filer</button>
-    <span class="toolbar-spacer"></span>
-    <button mat-raised-button>Export</button>
-  </mat-toolbar>
+		<mat-accordion>
+			<app-table-filter
+				[control]="item"
+				*ngFor="let item of tableFilters"
+        [parentForm]="filterForm"
+        (itemsChange)="onItemsChange($event)">
+			</app-table-filter>
 
-  <table
-  mat-table
-  [dataSource]="dataSource"
-  matSort
-  (matSortChange)="getAll()"
-  class="table full-screen">
-  
-    <!-- Checkbox Column -->
-    <ng-container matColumnDef="select">
-      <th mat-header-cell *matHeaderCellDef>
-        <mat-checkbox
+			<button
+				class="apply-filter-button"
+        (click)="filterTable(); sidenav.toggle()"
         color="primary"
-          (change)="$event ? onMasterToggle() : null"
-          [checked]="selection.hasValue() && isAllSelected()">
-        </mat-checkbox>
-      </th>
-      <td mat-cell *matCellDef="let row">
-        <mat-checkbox
-          color="primary"
-          (click)="$event.stopPropagation()"
-          (change)="$event ? selection.toggle(row) : null"
-          [checked]="selection.isSelected(row)">
-        </mat-checkbox>
-      </td>
-    </ng-container>
+				mat-flat-button>
+				Apply Filter
+			</button>
+		</mat-accordion>
+	</mat-sidenav>
 
-    <!-- Data Columns -->
-    <ng-container
-      matColumnDef="{{ item }}"
-      *ngFor="let item of displayedColumns.slice(1)">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ item | titlecase }}
-      </th>
-      
-      <td mat-cell *matCellDef="let element">
-        <span>{{ returnTableBody(element, item) }}	</span>
-      </td>
-    </ng-container>
+	<mat-sidenav-content>
+		<section>
+			<mat-toolbar class="button-toolbar">
+				<button mat-raised-button (click)="sidenav.toggle()">
+					Filter
+				</button>
+				<span class="toolbar-spacer"></span>
+				<button mat-raised-button color="accent">Export</button>
+			</mat-toolbar>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row  *matRowDef="let row; columns: displayedColumns;" ></tr>
-  </table>
+			<table
+				mat-table
+				[dataSource]="dataSource"
+				matSort
+				(matSortChange)="filterTable()"
+				class="table full-screen"
+			>
+				<!-- Checkbox -->
+				<ng-container matColumnDef="select">
+					<!-- master checkbox -->
+					<th mat-header-cell *matHeaderCellDef>
+						<mat-checkbox
+							color="primary"
+							(change)="$event ? onMasterToggle() : null"
+							[checked]="selection.hasValue() && isAllSelected()"
+						>
+						</mat-checkbox>
+					</th>
 
-  <mat-paginator
-    #paginator
-    (page)="getAll()"
-    [pageSize]="10"
-    [pageSizeOptions]="[5, 10, 20]">
-  </mat-paginator>
-    
-</section>
+					<!-- row checkbox -->
+					<td mat-cell *matCellDef="let row">
+						<mat-checkbox
+							color="primary"
+							(click)="$event.stopPropagation()"
+							(change)="$event ? selection.toggle(row) : null"
+							[checked]="selection.isSelected(row)"
+						>
+						</mat-checkbox>
+					</td>
+				</ng-container>
+
+				<!-- Data Columns -->
+				<ng-container
+					matColumnDef="{{ item }}"
+          *ngFor="let item of dataColumns"
+          >
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+						{{ item | titlecase }}
+					</th>
+
+					<td mat-cell *matCellDef="let element">
+						<span>{{ returnTableBody(element, item) }} </span>
+          </td>
+          
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr
+					mat-row
+					*matRowDef="let row; columns: displayedColumns"
+				></tr>
+			</table>
+
+			<mat-paginator
+				#paginator
+				(page)="filterTable()"
+				[pageSize]="10"
+				[pageSizeOptions]="[5, 10, 20]"
+			>
+			</mat-paginator>
+		</section>
+	</mat-sidenav-content>
+</mat-sidenav-container>

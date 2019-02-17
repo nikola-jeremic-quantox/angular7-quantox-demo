@@ -1,3 +1,17 @@
 .full-screen {
     width: 100%;
 }
+
+.button-toolbar {
+    border-bottom: 2px solid #673ab7;
+    background: transparent;
+}
+
+mat-sidenav {
+    padding: 20px 0;
+}
+
+.apply-filter-button {
+    margin: 20px auto;
+    display: list-item;
+}

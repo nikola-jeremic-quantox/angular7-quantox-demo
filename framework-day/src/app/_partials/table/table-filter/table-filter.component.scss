@@ -1,0 +1,24 @@
+.filtered-items {
+    margin-bottom: 5px;
+    label {
+        display: inline-block;
+        margin: 2px 5px 2px 0;
+        background: #f44336;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+    }
+} 
+
+.counter {
+    color: #f44336;
+    display: inline-block; 
+    margin-left: 5px;
+}
+
+:host ::ng-deep {
+    mat-option  {
+        font-size: 14px !important;
+    }
+}

@@ -1,0 +1,47 @@
+<mat-expansion-panel  [formGroup]="parentForm">
+
+    <mat-expansion-panel-header>
+      {{ controlsMap[control].title }}
+      <span
+        *ngIf="itemsSelected.length > 0"
+        class="counter">
+        ({{ itemsSelected.length }})
+      </span>
+    </mat-expansion-panel-header>
+  
+    <div class="filtered-items">
+      <label
+        [title]="item.name"
+        *ngFor="let item of itemsSelected; let i = index"
+        (click)="onRemoveItem(i)">
+        {{ item?.name }}
+      </label>
+    </div>
+  
+    <mat-form-field>
+  
+      <input
+        #search
+        matInput
+        [placeholder]="controlsMap[control].holder"
+        [formControlName]="control"
+        [matAutocomplete]="complete"/>
+  
+      <mat-autocomplete
+        autoActiveFirstOption
+        (optionSelected)=" onAddItem($event.option.value); search.value = '' "
+        #complete="matAutocomplete"
+        [displayWith]="displayName">
+  
+        <mat-option
+          *ngFor="let item of itemsFilter$ | async"
+          [value]="item" >
+          {{ item.name }}
+        </mat-option>
+  
+      </mat-autocomplete>
+  
+    </mat-form-field>
+  
+  </mat-expansion-panel>
+  

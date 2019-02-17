@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { ApiService } from 'src/app/services/api.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import { debounceTime } from 'rxjs/operators';
 
@@ -12,22 +12,22 @@ import { debounceTime } from 'rxjs/operators';
 	styleUrls: ['./destinations.component.scss']
 })
 export class DestinationsComponent implements OnInit {
-	chosenId: string | number;
-	destinations: any;
+
+	filteredDestinations: any;
+  allDestinations: any;
+  
 	chosenCategory: string;
 
-	activatedId$ = this.sharedService.activatedId;
+	filterForm = new FormGroup({
+		country: new FormControl(''),
+		category: new FormControl(''),
+		stars: new FormControl(null)
+	});
 
-
-	displayedColumns: string[] = [
-		'select',
-		'id',
-		'name',
-		'region',
-		'country',
-		'category',
-		'stars'
-	];
+  chosenFilter = { country: [], category: [], stars: [], };
+  tableFilters = Object.keys(this.chosenFilter);
+  dataColumns = ['id', 'name', 'region', 'country', 'category', 'stars'];
+	displayedColumns = ['select', ...this.dataColumns];
 
 	dataSource;
 	selection = new SelectionModel(true, []);
@@ -52,8 +52,8 @@ export class DestinationsComponent implements OnInit {
 	}
 	openSubsriptions() {
 		this.apiService.getCollectionItems('destinations').subscribe(res => {
-			this.destinations = res;
-			this.generateTable(res);
+      this.allDestinations = res;
+      this.filterTable();
 		});
 	}
 
@@ -76,11 +76,11 @@ export class DestinationsComponent implements OnInit {
 		const path2 = path1 && path1[splited[2]];
 		const value = path2 || path1 || path0 || null;
 		return value;
-	}
+  }
 
 	// onDeleteRow(id) {
 	//   this.accountsService.deleteUser(id).subscribe(
-	//     () => this.getAll()
+	//     () => this.filterTable()
 	//   );
 	// }
 
@@ -89,32 +89,34 @@ export class DestinationsComponent implements OnInit {
 		this.dataSource = new MatTableDataSource(data);
 		this.dataSource.sort = this.sort;
 		this.dataSource.paginator = this.paginator;
-	}
-	/* Filtering */
+  }
+  
 	subscribeToAllFilters() {
 		this.searchInput.valueChanges
 			.pipe(debounceTime(700))
-			.subscribe(() => this.getAll());
-		this.getAll();
+			.subscribe(() => this.filterTable());
+		this.filterTable();
 	}
 
-	closeSubscriptions() {
-		this.activatedId$.unsubscribe();
-	}
+  onItemsChange(object) {
+    this.chosenFilter[object.key] = object.value;
+  }
 
-	getAll() {
-		const options = {
-			limit: this.paginator ? this.paginator.pageSize : 10,
-			page: this.paginator ? this.paginator.pageIndex : 0,
-			sortBy: this.sort.active || 'id',
-			sortOrder: this.sort.direction || 'asc',
-			textSearch: this.searchInput.value
-		};
+	filterTable() {
 
-		// this.accountsService.getAllUsers(options).subscribe(response => {
-		// 	const { data, meta } = response;
-		// 	this.paginator.length = meta.total_items;
-		// 	this.generateTable(data);
-		// });
+    let filteredData = [...this.allDestinations];
+
+    Object.keys(this.chosenFilter).forEach(key => {
+      let value = this.chosenFilter[key].map( el => el.name);
+      if(value.length) {
+        filteredData.forEach( (row, index) => {
+          if( !value.includes(row[key]) ) {
+            filteredData.splice( index, 1)
+          };
+        } )
+      }
+    });
+    this.generateTable(filteredData);
+    
 	}
 }
