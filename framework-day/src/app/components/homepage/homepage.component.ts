@@ -35,7 +35,7 @@ export class HomepageComponent implements OnInit {
   }
 
   onCategoryChosen(category) {
-    this.sharedService.chosenCategory.next(category);
+    this.sharedService.activeCategory.next([category]);
     this.router.navigateByUrl('/destinations');
   }
   

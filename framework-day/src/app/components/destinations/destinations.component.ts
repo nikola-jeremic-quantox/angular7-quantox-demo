@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { ApiService } from 'src/app/services/api.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
+import { Subscription, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -11,12 +12,13 @@ import { debounceTime } from 'rxjs/operators';
 	templateUrl: './destinations.component.html',
 	styleUrls: ['./destinations.component.scss']
 })
-export class DestinationsComponent implements OnInit {
+export class DestinationsComponent implements OnInit, OnDestroy {
 
 	filteredDestinations: any;
   allDestinations: any;
-  
-	chosenCategory: string;
+  isAdmin: boolean;
+
+  categorySubsription: Subscription;
 
 	filterForm = new FormGroup({
 		country: new FormControl(''),
@@ -26,12 +28,15 @@ export class DestinationsComponent implements OnInit {
 
   chosenFilter = { country: [], category: [], stars: [], };
   tableFilters = Object.keys(this.chosenFilter);
-  dataColumns = ['id', 'name', 'region', 'country', 'category', 'stars'];
-	displayedColumns = ['select', ...this.dataColumns];
+
+  visitorColumns = ['id', 'name', 'region', 'country', 'category', 'stars'];
+  adminColumns = ['select', ...this.visitorColumns, 'settings'];
+  displayedColumns = this.isAdmin ? [...this.adminColumns] : [...this.visitorColumns]; 
 
 	dataSource;
 	selection = new SelectionModel(true, []);
-	searchInput = new FormControl('');
+  searchInput = new FormControl('');
+
 	@ViewChild(MatSort) sort: MatSort;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -41,21 +46,28 @@ export class DestinationsComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		this.openSubsriptions();
-	}
+    this.openSubsriptions();
+  }
+  
+  ngOnDestroy() {
+   this.categorySubsription.unsubscribe();
+  }
 
 	getCategory() {
-		this.sharedService.chosenCategory.subscribe(
-			res => (this.chosenCategory = res),
-			error => console.log('Error: ', error)
+		this.categorySubsription = this.sharedService.activeCategory.subscribe(
+			res => {
+        this.chosenFilter.category = res;
+        this.filterTable();
+      }
 		);
-	}
+  }
+  
 	openSubsriptions() {
-		this.apiService.getCollectionItems('destinations').subscribe(res => {
-      this.allDestinations = res;
-      this.filterTable();
-		});
-	}
+    this.apiService.getCollectionItems('destinations').subscribe(res => {
+        this.allDestinations = res;
+        this.getCategory();
+      })
+  }
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -106,17 +118,16 @@ export class DestinationsComponent implements OnInit {
 
     let filteredData = [...this.allDestinations];
 
-    Object.keys(this.chosenFilter).forEach(key => {
-      let value = this.chosenFilter[key].map( el => el.name);
-      if(value.length) {
-        filteredData.forEach( (row, index) => {
-          if( !value.includes(row[key]) ) {
-            filteredData.splice( index, 1)
-          };
-        } )
+    const keys = Object.keys(this.chosenFilter);
+
+    keys.forEach(key => {
+      let value = this.chosenFilter[key] && this.chosenFilter[key].map( el => el.name || el);
+      if (value.length) {
+        filteredData = filteredData.filter( element => value.includes(element[key]) );
       }
     });
-    this.generateTable(filteredData);
+
+    this.generateTable(filteredData);    
     
 	}
 }
