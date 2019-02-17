@@ -15,7 +15,8 @@ import { HeaderComponent } from './_partials/header/header.component';
 import { IterateNumberPipe } from './_partials/pipes/iterate-number.pipe';
 import { NgxFlagIconCssModule } from 'ngx-flag-icon-css';
 import { SingleDestinationComponent } from './components/single-destination/single-destination.component';
-import { TableFilterComponent } from './_partials/table/table-filter/table-filter.component'
+import { TableFilterComponent } from './_partials/table/table-filter/table-filter.component';
+import { AddDialogComponent } from './_partials/dialogs/add-dialog/add-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { TableFilterComponent } from './_partials/table/table-filter/table-filte
     HeaderComponent,
     IterateNumberPipe,
     SingleDestinationComponent,
-    TableFilterComponent
+    TableFilterComponent,
+    AddDialogComponent
   ],
   imports: [
     CoreModule,
@@ -34,6 +36,9 @@ import { TableFilterComponent } from './_partials/table/table-filter/table-filte
     MaterialModule,
     FirebaseModule,
     NgxFlagIconCssModule
+  ],
+  entryComponents: [
+    AddDialogComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

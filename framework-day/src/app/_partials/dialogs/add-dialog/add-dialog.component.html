@@ -1,0 +1,83 @@
+<h2>
+	Add new destination
+</h2>
+
+<form [formGroup]="dialogForm">
+
+  <!-- 1. Name -->
+	<mat-form-field>
+		<input
+			formControlName="name"
+			matInput
+			placeholder="Enter destination name"
+			autocomplete="off"/>
+    <mat-error *ngIf="dialogForm.controls.name.errors?.required">
+      *Name is required
+    </mat-error>
+	</mat-form-field>
+
+  <!-- 2. Region -->
+	<mat-form-field>
+		<input
+			formControlName="region"
+			matInput
+			placeholder="Enter region"
+			autocomplete="off"/>
+    <mat-error *ngIf="dialogForm.controls.region.errors?.required">
+      *Region is required
+    </mat-error>
+	</mat-form-field>
+
+  <!-- 3. Country -->
+	<mat-form-field>
+		<mat-select formControlName="country" placeholder="Select a country">
+			<mat-option
+				*ngFor="let country of (countries$ | async)"
+				[value]="country.name">
+				{{ country.name }}
+			</mat-option>
+		</mat-select>
+    <mat-error *ngIf="dialogForm.controls.country.errors?.required">
+      *Country is required
+    </mat-error>
+	</mat-form-field>
+
+  <!-- 4. Category -->
+	<mat-form-field>
+		<mat-select
+			formControlName="category"
+			placeholder="Select a category">
+			<mat-option
+				*ngFor="let category of (categories$ | async)"
+				[value]="category.name">
+				{{ category.name }}
+			</mat-option>
+		</mat-select>
+    <mat-error *ngIf="dialogForm.controls.category.errors?.required">
+      *Category is required
+    </mat-error>
+	</mat-form-field>
+
+  <!-- 5. Stars -->
+	<mat-form-field>
+		<input
+			formControlName="stars"
+			type="number"
+			matInput
+			autocomplete="off"
+		/>
+    <mat-error *ngIf="dialogForm.controls.stars.errors?.required">
+      *Stars are required
+    </mat-error>
+    <mat-error *ngIf="dialogForm.controls.stars.errors?.min || dialogForm.controls.stars.errors?.max">
+      *Stars must be a number between 1 and 5
+    </mat-error>
+  </mat-form-field>
+  
+  <button 
+    mat-raised-button 
+    color="primary"
+    (click)="onFormSubmit(dialogForm.value)">
+    Save
+  </button>
+</form>

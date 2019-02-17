@@ -23,7 +23,7 @@ export class CountriesComponent implements OnInit {
   }
 
   onCountryChosen(countryId) {
-    this.sharedService.activatedId.next( countryId );
+    // this.sharedService.activatedId.next( countryId );
     this.router.navigate(['users'])
   }
 

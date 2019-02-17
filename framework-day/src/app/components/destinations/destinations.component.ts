@@ -3,10 +3,10 @@ import { SharedService } from '../../services/shared.service';
 import { ApiService } from 'src/app/services/api.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
-import { Subscription, Observable } from 'rxjs';
+import { MatSort, MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
+import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { ConsoleReporter } from 'jasmine';
+import { AddDialogComponent } from 'src/app/_partials/dialogs/add-dialog/add-dialog.component';
 
 @Component({
 	selector: 'app-destinations',
@@ -44,7 +44,8 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private sharedService: SharedService,
-		private apiService: ApiService
+		private apiService: ApiService,
+    private matDialog: MatDialog
 	) {}
 
 	ngOnInit() {
@@ -62,8 +63,17 @@ export class DestinationsComponent implements OnInit, OnDestroy {
         this.filterTable();
       }
 		);
+	}
+	
+  onAddNew() {
+    const dialogRef = this.matDialog.open(AddDialogComponent, {
+      width: '600px',
+      data: {
+				name: 'New Account'
+			}
+    });
   }
-  
+
 	openSubsriptions() {
     this.apiService.getCollectionItems('destinations').subscribe(res => {
 			this.allDestinations = res;
@@ -71,6 +81,7 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 		})
 		this.sharedService.isLogged.subscribe(res => {
 			this.displayedColumns = res ? [...this.adminColumns] : [...this.visitorColumns]; 
+			this.isAdmin = res;
 		})
   }
 
