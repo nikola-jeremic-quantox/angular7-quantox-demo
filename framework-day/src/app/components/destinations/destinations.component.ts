@@ -72,6 +72,12 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 				name: 'New Account'
 			}
     });
+    dialogRef.afterClosed().subscribe(doc => {
+      if (doc) {
+				// this.apiService.postDestination(doc).subscribe(res=> console.log(res));
+				/* ToDo: POST result */
+      }
+    });
   }
 
 	openSubsriptions() {

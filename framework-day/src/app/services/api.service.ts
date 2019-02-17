@@ -26,7 +26,7 @@ export class ApiService {
 	}
 
 	getDestination(id) {
-    const endpoint = 'destinations/' + id
+    const endpoint = 'destinations/' + id;
 		return this.db
       .doc(endpoint)
 			.snapshotChanges()
@@ -39,5 +39,10 @@ export class ApiService {
 					return item;
 				})
 			);
+	}
+
+	postDestination(document) {
+		const endpoint = 'destinations/';
+		return /* ToDo */
 	}
 }

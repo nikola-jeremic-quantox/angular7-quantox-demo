@@ -23,3 +23,11 @@ button {
   padding: 5px 25px;
   text-transform: uppercase;
 }
+
+:host ::ng-deep .mat-form-field-prefix mat-icon {
+  font-size: 100% !important;
+  color: #b69623;
+  padding-right: 25px;
+  position: relative;
+  bottom: -2px;
+}

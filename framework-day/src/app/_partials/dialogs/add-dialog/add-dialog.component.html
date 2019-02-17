@@ -11,9 +11,12 @@
 			matInput
 			placeholder="Enter destination name"
 			autocomplete="off"/>
-    <mat-error *ngIf="dialogForm.controls.name.errors?.required">
-      *Name is required
-    </mat-error>
+      <mat-error *ngIf="dialogForm.controls.name.errors?.required">
+        *Name is required
+      </mat-error>
+      <mat-error *ngIf="dialogForm.controls.name.errors?.minlength">
+        *Name must have at least 3 characters
+      </mat-error>
 	</mat-form-field>
 
   <!-- 2. Region -->
@@ -25,6 +28,9 @@
 			autocomplete="off"/>
     <mat-error *ngIf="dialogForm.controls.region.errors?.required">
       *Region is required
+    </mat-error>
+    <mat-error *ngIf="dialogForm.controls.region.errors?.minlength">
+      *Name must have at least 3 characters
     </mat-error>
 	</mat-form-field>
 
@@ -64,8 +70,8 @@
 			formControlName="stars"
 			type="number"
 			matInput
-			autocomplete="off"
-		/>
+			autocomplete="off"/>
+    <span matPrefix><mat-icon>star</mat-icon></span>
     <mat-error *ngIf="dialogForm.controls.stars.errors?.required">
       *Stars are required
     </mat-error>

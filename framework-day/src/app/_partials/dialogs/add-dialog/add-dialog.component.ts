@@ -12,14 +12,16 @@ export class AddDialogComponent implements OnInit {
 
   countries$ = this.apiService.getCollectionItems('countries');
   categories$ = this.apiService.getCollectionItems('categories');
+  submitted: boolean;
 
   dialogForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    region: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    region: new FormControl('', [Validators.required, Validators.minLength(3)]),
     country: new FormControl('', [Validators.required]),
     category: new FormControl('', [Validators.required]),
     stars: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(5)]),
   })
+  
 
   constructor(
     public apiService: ApiService,
@@ -30,13 +32,16 @@ export class AddDialogComponent implements OnInit {
   ngOnInit() {
   }
 
+  get dForm() { return this.dialogForm.controls; }
+
 	openSubsriptions() {
     this.apiService.getCollectionItems('country')
   }
 
   onFormSubmit(formValue) {
-    console.log(1, formValue)
-    this.dialogRef.close();
+    if(this.dialogForm.valid) {
+      this.dialogRef.close(this.dialogForm.value);
+    }
   }
 
 }
