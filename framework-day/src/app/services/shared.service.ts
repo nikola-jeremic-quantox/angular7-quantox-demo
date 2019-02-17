@@ -5,6 +5,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 
 export class SharedService {
 
-    activeCategory = new BehaviorSubject<any[]>([]);
+    isLogged         = new BehaviorSubject( false );
+    activeCategories = new BehaviorSubject( [] );
 
 }

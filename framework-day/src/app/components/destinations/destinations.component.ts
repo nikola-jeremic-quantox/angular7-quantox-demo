@@ -6,6 +6,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import { Subscription, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { ConsoleReporter } from 'jasmine';
 
 @Component({
 	selector: 'app-destinations',
@@ -27,11 +28,12 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 	});
 
   chosenFilter = { country: [], category: [], stars: [], };
-  tableFilters = Object.keys(this.chosenFilter);
+	tableFilters = Object.keys(this.chosenFilter);
+	filteredItems: string;
 
   visitorColumns = ['id', 'name', 'region', 'country', 'category', 'stars'];
   adminColumns = ['select', ...this.visitorColumns, 'settings'];
-  displayedColumns = this.isAdmin ? [...this.adminColumns] : [...this.visitorColumns]; 
+  displayedColumns = [...this.visitorColumns]; 
 
 	dataSource;
 	selection = new SelectionModel(true, []);
@@ -54,7 +56,7 @@ export class DestinationsComponent implements OnInit, OnDestroy {
   }
 
 	getCategory() {
-		this.categorySubsription = this.sharedService.activeCategory.subscribe(
+		this.categorySubsription = this.sharedService.activeCategories.subscribe(
 			res => {
         this.chosenFilter.category = res;
         this.filterTable();
@@ -64,9 +66,12 @@ export class DestinationsComponent implements OnInit, OnDestroy {
   
 	openSubsriptions() {
     this.apiService.getCollectionItems('destinations').subscribe(res => {
-        this.allDestinations = res;
-        this.getCategory();
-      })
+			this.allDestinations = res;
+			this.getCategory();
+		})
+		this.sharedService.isLogged.subscribe(res => {
+			this.displayedColumns = res ? [...this.adminColumns] : [...this.visitorColumns]; 
+		})
   }
 
   isAllSelected() {
@@ -107,7 +112,6 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 		this.searchInput.valueChanges
 			.pipe(debounceTime(700))
 			.subscribe(() => this.filterTable());
-		this.filterTable();
 	}
 
   onItemsChange(object) {
@@ -118,16 +122,19 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 
     let filteredData = [...this.allDestinations];
 
-    const keys = Object.keys(this.chosenFilter);
+		const keys = Object.keys(this.chosenFilter);
+		const items = [];
 
     keys.forEach(key => {
-      let value = this.chosenFilter[key] && this.chosenFilter[key].map( el => el.name || el);
+			let value = this.chosenFilter[key] && this.chosenFilter[key].map( el => el.name || el);
       if (value.length) {
+				value.forEach(it => items.push(it));
         filteredData = filteredData.filter( element => value.includes(element[key]) );
       }
     });
 
-    this.generateTable(filteredData);    
+		this.generateTable(filteredData);
+		this.filteredItems = items.join(', ');    
     
 	}
 }

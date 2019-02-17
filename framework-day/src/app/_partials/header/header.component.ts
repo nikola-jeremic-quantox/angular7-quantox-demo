@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-header',
@@ -8,14 +9,34 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor( private router: Router) {}
+  isLogged = false;
+
+  constructor( 
+    private router: Router, 
+    private sharedService: SharedService
+    ) {}
   
   ngOnInit() {
+    this.checkLoginStatus();
+  }
+
+  checkLoginStatus() {
+    this.isLogged = !!localStorage.getItem('token');
+    this.sharedService.isLogged.next(this.isLogged);
+  }
+
+  onLogin() {
+    localStorage.setItem('token', 'angularDemo');
+    this.checkLoginStatus();
+  }
+
+  onLogout() {
+    localStorage.removeItem('token');
+    this.checkLoginStatus();
   }
 
   onNavigate(page) {
     this.router.navigateByUrl( page );
   }
-
 
 }

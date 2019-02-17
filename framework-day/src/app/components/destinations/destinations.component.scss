@@ -15,3 +15,28 @@ mat-sidenav {
     margin: 20px auto;
     display: list-item;
 }
+
+mat-icon {
+    font-size: 20px;
+    color: gray;
+    margin-right: 10px;
+    cursor: pointer;
+    &:hover {
+        color: #673ab7;
+        transform: scale(1.1);
+    }
+}
+
+.mat-column-settings {
+    width: 100px;
+}
+
+.filter-counter {
+    color: red;
+    margin-left: 5px;
+}
+
+.button-toolbar span {
+    vertical-align: top;
+    display: inline-block;
+}

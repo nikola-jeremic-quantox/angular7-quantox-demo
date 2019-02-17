@@ -12,15 +12,24 @@
   <button 
     mat-raised-button 
     color="primary"
-    (click)="onNavigate('/countries')"> 
-    Explore by country
+    (click)="onNavigate('/destinations')"> 
+    Explore destinations
   </button>
 
   <button 
     mat-raised-button 
     color="warn"
-    (click)="onNavigate('/admin')"> 
-    Admin panel
+    *ngIf="!isLogged"
+    (click)="onLogin()"> 
+    Login as Admin
+  </button>
+
+  <button 
+    mat-raised-button 
+    color="warn"
+    *ngIf="isLogged"
+    (click)="onLogout()"> 
+    Logout
   </button>
 
 </mat-toolbar>
