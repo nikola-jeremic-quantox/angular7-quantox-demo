@@ -1,25 +1,28 @@
 <mat-sidenav-container>
 	<!-- Side-nav -->
 	<mat-sidenav class="main-sidebar" #sidenav>
-
 		<mat-accordion>
+
 			<app-table-filter
+        *ngFor="let item of tableFilters"
 				[control]="item"
-				*ngFor="let item of tableFilters"
         [parentForm]="filterForm"
-        (itemsChange)="onItemsChange($event)">
+        [selected]="chosenFilter"
+				(itemsChange)="onItemsChange($event)">
 			</app-table-filter>
 
 			<button
 				class="apply-filter-button"
-        (click)="filterTable(); sidenav.toggle()"
-        color="primary"
+				(click)="filterTable(); sidenav.toggle()"
+				color="primary"
 				mat-flat-button>
 				Apply Filter
 			</button>
+
 		</mat-accordion>
 	</mat-sidenav>
 
+  <!-- Page Content -->
 	<mat-sidenav-content>
 		<section>
 			<mat-toolbar class="button-toolbar">
@@ -84,7 +87,7 @@
 
 					<td mat-cell *matCellDef="let element">
             <mat-icon (click)="onDialog(element.id)">edit</mat-icon>
-            <mat-icon>delete</mat-icon>
+            <mat-icon (click)="onDeleteRow(element.id)">delete</mat-icon>
           </td>
           
 				</ng-container>

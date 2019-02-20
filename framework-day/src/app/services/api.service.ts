@@ -47,6 +47,7 @@ export class ApiService {
 	}
 
 	updateDestination(document, id) {
+		console.log('update', document, id)
 		return this.db
 			.doc('destinations/' + id).update(document);
 	}

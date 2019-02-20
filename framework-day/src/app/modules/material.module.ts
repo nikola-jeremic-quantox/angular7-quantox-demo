@@ -16,7 +16,8 @@ import {
   MatProgressSpinnerModule,
   MatDividerModule,
   MatCheckboxModule,
-  MatExpansionModule} from '@angular/material';
+  MatExpansionModule,
+  MatTabsModule} from '@angular/material';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -32,6 +33,7 @@ const materialModules = [
   MatTableModule,
   MatGridListModule,
   MatSortModule,
+  MatTabsModule,
   MatPaginatorModule,
   MatSidenavModule,
   MatListModule,

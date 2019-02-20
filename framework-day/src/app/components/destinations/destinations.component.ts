@@ -3,7 +3,7 @@ import { SharedService } from '../../services/shared.service';
 import { ApiService } from 'src/app/services/api.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatSort, MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
+import { MatSort, MatPaginator, MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { AddDialogComponent } from 'src/app/_partials/dialogs/add-dialog/add-dialog.component';
@@ -15,9 +15,9 @@ import { AddDialogComponent } from 'src/app/_partials/dialogs/add-dialog/add-dia
 })
 export class DestinationsComponent implements OnInit, OnDestroy {
 
-	filteredDestinations: any;
   allDestinations: any;
-  isAdmin: boolean;
+	isAdmin: boolean;
+	dialogRef: MatDialogRef<any>;
 
   categorySubsription: Subscription;
 
@@ -27,7 +27,7 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 		stars: new FormControl(null)
 	});
 
-  chosenFilter = { country: [], category: [], stars: [], };
+  chosenFilter = { country: [], category: [], stars: [] };
 	tableFilters = Object.keys(this.chosenFilter);
 	filteredItems: string;
 
@@ -50,6 +50,11 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
     this.openSubsriptions();
+	}
+
+	openSubsriptions() {
+		this.subsribeToAdmin()
+		this.subsribeToDestination();
   }
   
   ngOnDestroy() {
@@ -66,34 +71,43 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 	}
 	
   onDialog(id?) {
-    const dialogRef = this.matDialog.open(AddDialogComponent, {
+    this.dialogRef = this.matDialog.open(AddDialogComponent, {
       width: '600px',
+      height: '600px',
       data: {
-				name: id ? 'Update Desination' : 'Create new Destination',
+				title: id ? 'Update Desination' : 'Create new Destination',
 				id: id || null
 			}
-    });
-    dialogRef.afterClosed().subscribe(object => {
+		});
+		this.subscribeToDialogClosed();
+	}
+
+	subscribeToDialogClosed() {
+    this.dialogRef.afterClosed().subscribe(object => {
 			const { id, doc } = object;
-			console.log(111111111, id, doc);
-      if (doc) {
-				console.log(32321, doc)
+      if ( id ) {
+				this.apiService.updateDestination(doc, id);
+        this.filterTable();
+      } else {
 				this.apiService.postDestination(doc);
         this.filterTable();
-      }
+			}
     });
-  }
+	}
 
-	openSubsriptions() {
+	subsribeToDestination() {
     this.apiService.getCollectionItems('destinations').subscribe(res => {
 			this.allDestinations = res;
 			this.getCategory();
 		})
+	}
+
+	subsribeToAdmin() {
 		this.sharedService.isLogged.subscribe(res => {
 			this.displayedColumns = res ? [...this.adminColumns] : [...this.visitorColumns]; 
 			this.isAdmin = res;
 		})
-  }
+	}
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -116,11 +130,9 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 		return value;
   }
 
-	// onDeleteRow(id) {
-	//   this.accountsService.deleteUser(id).subscribe(
-	//     () => this.filterTable()
-	//   );
-	// }
+	onDeleteRow(id) {
+	  this.apiService.deleteDestination(id)
+	}
 
 	/* TABLE FEATURES */
 	generateTable(data) {

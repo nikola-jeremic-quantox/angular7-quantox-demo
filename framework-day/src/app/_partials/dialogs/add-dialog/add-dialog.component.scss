@@ -24,10 +24,20 @@ button {
   text-transform: uppercase;
 }
 
-:host ::ng-deep .mat-form-field-prefix mat-icon {
-  font-size: 100% !important;
-  color: #b69623;
-  padding-right: 25px;
-  position: relative;
-  bottom: -2px;
-}
+:host ::ng-deep {
+  .mat-form-field-prefix mat-icon {
+    font-size: 100% !important;
+    color: #b69623;
+    padding-right: 25px;
+    position: relative;
+    bottom: -2px;
+  }
+
+  .mat-tab-labels {
+    justify-content: space-evenly;
+  }
+
+  .mat-tab-body-wrapper {
+    padding-top: 18px;
+  }
+} 

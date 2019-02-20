@@ -1,5 +1,6 @@
 <mat-expansion-panel  [formGroup]="parentForm">
 
+    <!-- Header -->
     <mat-expansion-panel-header>
       {{ controlsMap[control].title }}
       <span
@@ -9,12 +10,12 @@
       </span>
     </mat-expansion-panel-header>
   
+    <!-- Selected items -->
     <div class="filtered-items">
       <label
-        [title]="item.name"
         *ngFor="let item of itemsSelected; let i = index"
         (click)="onRemoveItem(i)">
-        {{ item?.name }}
+        {{ item?.name || item }}
       </label>
     </div>
   

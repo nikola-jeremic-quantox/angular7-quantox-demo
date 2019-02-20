@@ -1,89 +1,139 @@
 <h2>
-    {{data.name}}
+    {{data.title}}
 </h2>
 
-<form [formGroup]="dialogForm">
+<form [formGroup]="dialogForm" autocomplete="off">
 
-  <!-- 1. Name -->
-	<mat-form-field>
-		<input
-			formControlName="name"
-			matInput
-			placeholder="Enter destination name"
-			autocomplete="off"/>
-      <mat-error *ngIf="dialogForm.controls.name.errors?.required">
-        *Name is required
-      </mat-error>
-      <mat-error *ngIf="dialogForm.controls.name.errors?.minlength">
-        *Name must have at least 3 characters
-      </mat-error>
-	</mat-form-field>
+		<mat-tab-group>
 
-  <!-- 2. Region -->
-	<mat-form-field>
-		<input
-			formControlName="region"
-			matInput
-			placeholder="Enter region"
-			autocomplete="off"/>
-    <mat-error *ngIf="dialogForm.controls.region.errors?.required">
-      *Region is required
-    </mat-error>
-    <mat-error *ngIf="dialogForm.controls.region.errors?.minlength">
-      *Name must have at least 3 characters
-    </mat-error>
-	</mat-form-field>
+			<mat-tab label="General Data">
+				
+				<!-- 1. Name -->
+				<mat-form-field>
+					<input
+						formControlName="name"
+						matInput
+						placeholder="Enter destination name"/>
+						<mat-error *ngIf="form.name.errors?.required">
+							*Name is required
+						</mat-error>
+						<mat-error *ngIf="form.name.errors?.minlength">
+							*Name must have at least 3 characters
+						</mat-error>
+				</mat-form-field>
+				
+				<!-- 2. Region -->
+				<mat-form-field>
+					<input
+						formControlName="region"
+						matInput
+						placeholder="Enter region"/>
+					<mat-error *ngIf="form.region.errors?.required">
+						*Region is required
+					</mat-error>
+					<mat-error *ngIf="form.region.errors?.minlength">
+						*Name must have at least 3 characters
+					</mat-error>
+				</mat-form-field>
+				
+				<!-- 3. Country -->
+				<mat-form-field>
+					<mat-select formControlName="country" placeholder="Select a country">
+						<mat-option
+							*ngFor="let country of (countries$ | async)"
+							[value]="country.name">
+							{{ country.name }}
+						</mat-option>
+					</mat-select>
+					<mat-error *ngIf="form.country.errors?.required">
+						*Country is required
+					</mat-error>
+				</mat-form-field>
+				
+				<!-- 4. Category -->
+				<mat-form-field>
+					<mat-select
+						formControlName="category"
+						placeholder="Select a category">
+						<mat-option
+							*ngFor="let category of (categories$ | async)"
+							[value]="category.name">
+							{{ category.name }}
+						</mat-option>
+					</mat-select>
+					<mat-error *ngIf="form.category.errors?.required">
+						*Category is required
+					</mat-error>
+				</mat-form-field>
+				
+				<!-- 5. Stars -->
+				<mat-form-field>
+					<input
+						formControlName="stars"
+						type="number"
+						matInput/>
+					<span matPrefix><mat-icon>star</mat-icon></span>
+					<mat-error *ngIf="form.stars.errors?.required">
+						*Stars are required
+					</mat-error>
+					<mat-error *ngIf="form.stars.errors?.min || form.stars.errors?.max">
+						*Stars must be a number between 1 and 5
+					</mat-error>
+				</mat-form-field>
+				
+				<button 
+					mat-raised-button 
+					color="primary"
+					(click)="onFormSubmit()">
+					{{actionButton}}
+				</button>
 
-  <!-- 3. Country -->
-	<mat-form-field>
-		<mat-select formControlName="country" placeholder="Select a country">
-			<mat-option
-				*ngFor="let country of (countries$ | async)"
-				[value]="country.name">
-				{{ country.name }}
-			</mat-option>
-		</mat-select>
-    <mat-error *ngIf="dialogForm.controls.country.errors?.required">
-      *Country is required
-    </mat-error>
-	</mat-form-field>
+			</mat-tab>
 
-  <!-- 4. Category -->
-	<mat-form-field>
-		<mat-select
-			formControlName="category"
-			placeholder="Select a category">
-			<mat-option
-				*ngFor="let category of (categories$ | async)"
-				[value]="category.name">
-				{{ category.name }}
-			</mat-option>
-		</mat-select>
-    <mat-error *ngIf="dialogForm.controls.category.errors?.required">
-      *Category is required
-    </mat-error>
-	</mat-form-field>
 
-  <!-- 5. Stars -->
-	<mat-form-field>
-		<input
-			formControlName="stars"
-			type="number"
-			matInput
-			autocomplete="off"/>
-    <span matPrefix><mat-icon>star</mat-icon></span>
-    <mat-error *ngIf="dialogForm.controls.stars.errors?.required">
-      *Stars are required
-    </mat-error>
-    <mat-error *ngIf="dialogForm.controls.stars.errors?.min || dialogForm.controls.stars.errors?.max">
-      *Stars must be a number between 1 and 5
-    </mat-error>
-  </mat-form-field>
-  
-  <button 
-    mat-raised-button 
-    color="primary"
-    (click)="onFormSubmit(dialogForm.value)">
-    Save
-  </button>
+			<mat-tab label="Optional Fields">
+
+
+				<!-- 6. Fun Fact -->
+				<mat-form-field>
+					<textarea
+						formControlName="funFacts"
+						type="text"
+						cdkTextareaAutosize
+						placeholder="Enter a fun fact description"
+						#autosize="cdkTextareaAutosize"
+						cdkAutosizeMinRows="2"
+						cdkAutosizeMaxRows="5"
+						matInput></textarea>
+				</mat-form-field>
+			
+				<!-- 7. Flag -->
+				<mat-form-field>
+					<input
+						formControlName="flag"
+						type="text"
+						matInput
+						placeholder="Enter a flag code"
+						autocomplete="off"/>
+				</mat-form-field>
+			
+				<!-- 8. Image -->
+				<mat-form-field>
+					<input
+						formControlName="image"
+						placeholder="Enter a image path"
+						type="text"
+						matInput/>
+				</mat-form-field>
+			
+				<button 
+					mat-raised-button 
+					color="primary"
+					(click)="onFormSubmit()">
+					{{actionButton}}
+				</button>
+			</mat-tab>
+
+	</mat-tab-group>
+
 </form>

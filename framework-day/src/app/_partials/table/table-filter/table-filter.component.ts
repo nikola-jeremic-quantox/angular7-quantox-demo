@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { startWith, map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
@@ -11,8 +11,10 @@ import { FormGroup } from '@angular/forms';
 })
 export class TableFilterComponent implements OnInit {
 
-  @Input() control;
+  @Input() control: string;
+  @Input() selected: any;
   @Input() parentForm: FormGroup;
+
   @Output() itemsChange = new EventEmitter();
 
   items = [];
@@ -22,7 +24,7 @@ export class TableFilterComponent implements OnInit {
   controlsMap = {
     country:   { title: 'Country',  holder: 'Choose a country',  method: this.api.getCollectionItems('countries') },
     category:  { title: 'Category', holder: 'Choose a category', method: this.api.getCollectionItems('categories') },
-    stars:     { title: 'Stars',  holder: 'Choose minimum star number',  method: this.api.getCollectionItems('stars') },
+    stars:     { title: 'Stars',  holder: 'Choose stars',  method: this.api.getCollectionItems('stars') },
   };
 
   constructor( private api: ApiService ) {}
@@ -34,6 +36,7 @@ export class TableFilterComponent implements OnInit {
   generateFields() {
     this.controlsMap[this.control].method.subscribe(res => {
       this.items = res;
+      this.itemsSelected = this.selected[this.control];
       this.watchForChanges();
     });
   }
@@ -69,6 +72,6 @@ export class TableFilterComponent implements OnInit {
   }
 
   displayName(obj?) {
-    return obj ? obj.name : undefined;
+    return obj && obj.name;
   }
 }
