@@ -7,6 +7,7 @@ import { MatSort, MatPaginator, MatTableDataSource, MatDialog, MatDialogRef } fr
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { AddDialogComponent } from 'src/app/_partials/dialogs/add-dialog/add-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-destinations',
@@ -31,8 +32,9 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 	tableFilters = Object.keys(this.chosenFilter);
 	filteredItems: string;
 
-  visitorColumns = ['id', 'name', 'region', 'country', 'category', 'stars'];
-  adminColumns = ['select', ...this.visitorColumns, 'settings'];
+  dataColumns = ['name', 'region', 'country', 'category', 'stars'];
+  visitorColumns = ['view', ...this.dataColumns];
+  adminColumns = ['select', 'view', ...this.dataColumns, 'settings'];
   displayedColumns = [...this.visitorColumns]; 
 
 	dataSource;
@@ -45,7 +47,8 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 	constructor(
 		private sharedService: SharedService,
 		private apiService: ApiService,
-    private matDialog: MatDialog
+		private matDialog: MatDialog,
+		private router: Router
 	) {}
 
 	ngOnInit() {
@@ -80,6 +83,10 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 			}
 		});
 		this.subscribeToDialogClosed();
+	}
+
+	onVisit(id?) {
+    this.router.navigateByUrl('/destination/' + id);
 	}
 
 	subscribeToDialogClosed() {

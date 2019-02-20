@@ -20,6 +20,8 @@ export class HomepageComponent implements OnInit {
     { name: 'Angular',       src: '/assets/images/logos/angular.svg'},
   ];
 
+  noImage = '/assets/images/destinations/no_image.jpg';
+
   constructor(
     private apiService: ApiService, 
     private sharedService: SharedService, 
