@@ -7,5 +7,6 @@ export class SharedService {
 
     isLogged         = new BehaviorSubject( false );
     activeCategories = new BehaviorSubject( [] );
+    activeCountries  = new BehaviorSubject( [] );
 
 }

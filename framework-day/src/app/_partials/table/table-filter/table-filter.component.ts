@@ -24,7 +24,7 @@ export class TableFilterComponent implements OnInit {
   controlsMap = {
     country:   { title: 'Country',  holder: 'Choose a country',  method: this.api.getCollectionItems('countries') },
     category:  { title: 'Category', holder: 'Choose a category', method: this.api.getCollectionItems('categories') },
-    stars:     { title: 'Stars',  holder: 'Choose stars',  method: this.api.getCollectionItems('stars') },
+    stars:     { title: 'Stars',    holder: 'Choose stars',      method: this.api.getCollectionItems('stars') },
   };
 
   constructor( private api: ApiService ) {}

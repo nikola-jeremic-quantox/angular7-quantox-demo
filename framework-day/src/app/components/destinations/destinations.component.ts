@@ -21,6 +21,7 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 	dialogRef: MatDialogRef<any>;
 
   categorySubsription: Subscription;
+  countrySubsription: Subscription;
 
 	filterForm = new FormGroup({
 		country: new FormControl(''),
@@ -61,13 +62,23 @@ export class DestinationsComponent implements OnInit, OnDestroy {
   }
   
   ngOnDestroy() {
-   this.categorySubsription.unsubscribe();
+		this.categorySubsription.unsubscribe();
+		this.countrySubsription.unsubscribe();
   }
 
 	getCategory() {
 		this.categorySubsription = this.sharedService.activeCategories.subscribe(
 			res => {
         this.chosenFilter.category = res;
+        this.filterTable();
+      }
+		);
+	}
+
+	getCountry() {
+		this.countrySubsription = this.sharedService.activeCountries.subscribe(
+			res => {
+        this.chosenFilter.country = res;
         this.filterTable();
       }
 		);
@@ -90,15 +101,16 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 	}
 
 	subscribeToDialogClosed() {
+		
     this.dialogRef.afterClosed().subscribe(object => {
 			const { id, doc } = object;
       if ( id ) {
 				this.apiService.updateDestination(doc, id);
-        this.filterTable();
       } else {
 				this.apiService.postDestination(doc);
-        this.filterTable();
 			}
+			
+			this.filterTable();
     });
 	}
 
@@ -106,6 +118,7 @@ export class DestinationsComponent implements OnInit, OnDestroy {
     this.apiService.getCollectionItems('destinations').subscribe(res => {
 			this.allDestinations = res;
 			this.getCategory();
+			this.getCountry();
 		})
 	}
 

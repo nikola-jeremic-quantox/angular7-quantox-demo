@@ -9,7 +9,8 @@
   <mat-grid-tile
       class="image-tile"
       colspan="4">
-      <img [src]="destination.image" [alt]="destination.name" />
+      <img *ngIf="destination.image" [src]="destination.image" [alt]="destination.name" />
+      <img *ngIf="!destination.image" [src]="noImage" alt="No image available" />
       
       <div class="destination-stars">
         <mat-icon 
@@ -39,14 +40,29 @@
             <h2>{{ destination.region }}, {{ destination.country }}</h2>
           </mat-toolbar-row>
       </mat-toolbar>
-      <h3>
-        <mat-icon>check_circle</mat-icon>
-        {{ destination.funFacts }}
-      </h3>
-      <p><b>Description:</b> <br>{{ destination.description }}</p>
+      <p><b>Fun facts:</b> <br>{{ destination.funFacts }}</p>
 
-      <button mat-stroked-button color="primary">{{destination.category}}</button>
-      <button mat-stroked-button color="warn">Explore {{destination.country}}</button>
+      <button 
+        mat-stroked-button 
+        (click)="onCategoryChosen(destination.category)"
+        color="primary">
+        {{destination.category}}
+      
+      </button>
+
+      <button 
+        mat-stroked-button 
+        (click)="onCountryChosen(destination.country)"
+        color="warn">
+        Explore {{destination.country}}
+      </button>
+
+      <button 
+        mat-raised-button 
+        (click)="onEdit(destination.id)"
+        color="warn">
+        Edit {{ destination.name }}
+      </button>
       
   </mat-grid-tile>
 

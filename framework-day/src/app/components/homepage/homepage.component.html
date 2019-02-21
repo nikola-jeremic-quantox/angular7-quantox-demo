@@ -14,14 +14,26 @@
       
     <h3> {{ specialOfferTitle }}  </h3>
 
-    <mat-card class="offer-item" *ngFor="let item of (destinations$ | async) | slice: 0:3">
+    <mat-card 
+      class="offer-item" 
+      *ngFor="let item of (destinations$ | async) | slice: 0:3">
 
         <mat-card-header>
-          <flag-icon mat-card-avatar class="item-flag" [country]="item.flag"></flag-icon>
-          <mat-card-title>{{item.name}}</mat-card-title>
+
+          <flag-icon 
+            mat-card-avatar 
+            class="item-flag" 
+            [country]="item.flag">
+          </flag-icon>
+
+          <mat-card-title>
+            {{item.name}}
+          </mat-card-title>
+
           <mat-card-subtitle>
             {{item.region}}, {{item.country}}
           </mat-card-subtitle>
+
         </mat-card-header>
 
         <img mat-card-image *ngIf="item.image" class="item-image" [src]="item.image" [alt]="item.name">
