@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { SharedService } from '../../services/shared.service';
 import { ApiService } from 'src/app/services/api.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSort, MatPaginator, MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import { AddDialogComponent } from 'src/app/_partials/dialogs/add-dialog/add-dialog.component';
 import { Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
 	selector: 'app-destinations',
@@ -97,7 +96,7 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 	}
 
 	onVisit(id?) {
-    this.router.navigateByUrl('/destination/' + id);
+    this.router.navigateByUrl('/destinations/' + id);
 	}
 
 	subscribeToDialogClosed() {

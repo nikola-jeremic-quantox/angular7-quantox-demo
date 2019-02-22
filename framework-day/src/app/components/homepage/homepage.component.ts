@@ -33,7 +33,7 @@ export class HomepageComponent implements OnInit {
   }
 
   onDestinationChosen(id) {
-    this.router.navigateByUrl('/destination/' + id);
+    this.router.navigateByUrl('/destinations/' + id);
   }
 
   onCategoryChosen(category) {

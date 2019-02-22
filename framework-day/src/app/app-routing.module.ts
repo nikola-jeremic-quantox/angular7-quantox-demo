@@ -1,17 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DestinationsComponent } from './components/destinations/destinations.component';
-import { CountriesComponent } from './components/countries/countries.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
-import { SingleDestinationComponent } from './components/single-destination/single-destination.component';
-
 
 const routes: Routes = [
   { path: 'home',             component: HomepageComponent      },
-  { path: 'countries',        component: CountriesComponent     },
-  { path: 'destinations',     component: DestinationsComponent  },
-  { path: 'destination/:id',  component: SingleDestinationComponent  },
+  { path: 'destinations',     loadChildren: './modules/destinations/destinations.module#DestinationsModule' },
   
   { path: '',  pathMatch: 'full', redirectTo: 'home' },
   { path: '**', redirectTo: 'home' }

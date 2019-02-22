@@ -1,9 +1,0 @@
-Country List:
-
-<ul>
-  <li 
-    *ngFor="let country of countryList$ | async"
-    (click)="onCountryChosen(country.id)">
-    {{ country.name }}
-  </li>
-</ul>
