@@ -1,13 +1,13 @@
 <mat-sidenav-container>
-	<!-- Side-nav -->
+	
 	<mat-sidenav class="main-sidebar" #sidenav>
 		<mat-accordion>
 
 			<app-table-filter
-        *ngFor="let item of tableFilters"
+       			 *ngFor="let item of tableFilters"
 				[control]="item"
-        [parentForm]="filterForm"
-        [selected]="chosenFilter"
+        		[parentForm]="filterForm"
+        		[selected]="chosenFilter"
 				(itemsChange)="onItemsChange($event)">
 			</app-table-filter>
 
@@ -25,13 +25,40 @@
   <!-- Page Content -->
 	<mat-sidenav-content>
 		<section>
+
+			<!-- Tolbar -->
 			<mat-toolbar class="button-toolbar">
+
 				<button mat-raised-button (click)="sidenav.toggle()">
-          <span>Filter</span>
-          <span class="filter-counter" *ngIf="filteredItems">({{filteredItems}})</span>
+					<span>Filter</span>
+					<span class="filter-counter" *ngIf="filteredItems">({{filteredItems}})</span>
 				</button>
+
 				<span class="toolbar-spacer"></span>
-				<button mat-raised-button color="primary" *ngIf="isAdmin" (click)="onDialog()">Add new</button>
+				
+
+				<div class="search-input-wrapper">
+					<div class="input-label">
+						<img
+							src="/assets/images/logos/search.svg"
+							class="search-icon">
+						<input
+							matInput
+							(keyup)="applyFilter($event.target.value)"
+							class="search-input"
+							placeholder="Search"
+							autocomplete="off">
+					</div>
+				</div>
+
+				<button 
+					mat-raised-button 
+					color="primary" 
+					*ngIf="isAdmin" 
+					(click)="onDialog()">
+					Add new
+				</button>
+
 			</mat-toolbar>
 
 			<table
@@ -39,7 +66,7 @@
 				[dataSource]="dataSource"
 				matSort
 				(matSortChange)="filterTable()"
-        class="table full-screen">
+        		class="table full-screen">
         
 				<!-- Checkbox -->
 				<ng-container matColumnDef="select">

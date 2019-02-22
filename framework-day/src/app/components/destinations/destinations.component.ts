@@ -161,11 +161,9 @@ export class DestinationsComponent implements OnInit, OnDestroy {
 		this.dataSource.paginator = this.paginator;
   }
   
-	subscribeToAllFilters() {
-		this.searchInput.valueChanges
-			.pipe(debounceTime(700))
-			.subscribe(() => this.filterTable());
-	}
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
   onItemsChange(object) {
     this.chosenFilter[object.key] = object.value;
